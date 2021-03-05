@@ -9,6 +9,6 @@
 <body>
 	<h2>Acesso liberado ao sistema para o seu usuario</h2>
 	<h3>SEJA BEM VINDO AO SISTEMA</h3>
-	<a href="cadastroUsuario.jsp">Cadastro de USUÁRIOS</a>
+	<a href="salvarUsuario?acao=listartodos">Cadastro de USUÁRIOS</a>
 </body>
 </html>

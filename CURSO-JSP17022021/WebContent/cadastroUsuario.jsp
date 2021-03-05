@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h1>Cadastro de Usuário</h1>
-	<form action="salvarUsuario" method="post">
+	<form action="salvarUsuario" method="post" id="formUser">
 		<table>
 			<tr>
 				<td>Código:</td>
@@ -27,16 +27,20 @@
 				<td>Senha:</td>
 				<td><input type="password" id="senha" name="senha"
 					value="${user.senha}"></td>
+			</tr><tr>
+				<td>Nome:</td>
+				<td><input type="text" id="nome" name="nome"
+					value="${user.nomeUsuario}"></td>
 			</tr>
 		</table>
-		<input type="submit" value="Salvar">
+		<input type="submit" value="Salvar"><input type="submit" value="Cancelar" onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'">
 
 	</form>
 	<table>
 		<tr>
 			<th>ID</th>
 			<th>LOGIN</th>
-			<th>SENHA</th>
+			<th>NOME</th>
 			<th>DELETE</th>
 			<th>EDITAR</th>
 		</tr>
@@ -44,12 +48,12 @@
 			<tr>
 				<td style="width: 150px"><c:out value="${user.idUsuario}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.login}"></c:out></td>
-				<td style="width: 150px"><c:out value="${user.senha}"></c:out></td>
+				<td style="width: 150px"><c:out value="${user.nomeUsuario}"></c:out></td>
 
-				<td><a href="salvarUsuario?acao=delete&user=${user.login}"><img
+				<td><a href="salvarUsuario?acao=delete&user=${user.idUsuario}"><img
 						alt="Excluir" title="Excluir" src="resources/img/excluir.png"
 						width="20px" height="20px"></a></td>
-				<td><a href="salvarUsuario?acao=editar&user=${user.login}"><img
+				<td><a href="salvarUsuario?acao=editar&user=${user.idUsuario}"><img
 						alt="Alterar" title="Alterar" src="resources/img/editar.png"
 						width="20px" height="20px"></a></td>
 

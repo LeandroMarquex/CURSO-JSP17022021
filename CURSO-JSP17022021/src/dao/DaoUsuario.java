@@ -28,10 +28,11 @@ public class DaoUsuario {
 
 	public void salvarUsuario(BeanCursoJsp salvarUsuario) {
 		try {
-			String sql = "insert into usuario(login, senha) values (?, ?)";
+			String sql = "insert into usuario(login, senha, nome) values (?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, salvarUsuario.getLogin());
 			insert.setString(2, salvarUsuario.getSenha());
+			insert.setString(3, salvarUsuario.getNomeUsuario());
 			insert.execute();
 			connection.commit();
 
@@ -59,15 +60,16 @@ public class DaoUsuario {
 			beanCursoJsp.setIdUsuario(resultSet.getLong("id"));
 			beanCursoJsp.setLogin(resultSet.getString("login"));
 			beanCursoJsp.setSenha(resultSet.getString("senha"));
+			beanCursoJsp.setNomeUsuario(resultSet.getString("nome"));
 			
 			listar.add(beanCursoJsp);
 			
 		}
 		return listar;
 	}
-	public void deleteUsuario (String login) {
+	public void deleteUsuario (String idUsuario) {
 		try {
-			String sql = "delete from usuario where login = '" + login + "'";
+			String sql = "delete from usuario where id = '" + idUsuario + "'";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.execute();
 			connection.commit();
@@ -82,8 +84,8 @@ public class DaoUsuario {
 		}
 	}
 
-	public BeanCursoJsp consultarUsuario(String login) throws Exception{
-		String sql = "select * from usuario where login = '" + login + "'";
+	public BeanCursoJsp consultarUsuario(String idUsuario) throws Exception{
+		String sql = "select * from usuario where id = '" + idUsuario + "'";
 		
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
@@ -92,6 +94,7 @@ public class DaoUsuario {
 			beanCursoJsp.setIdUsuario(resultSet.getLong("id"));
 			beanCursoJsp.setLogin(resultSet.getString("login"));
 			beanCursoJsp.setSenha(resultSet.getString("senha"));
+			beanCursoJsp.setNomeUsuario(resultSet.getString("nome"));
 			
 			return beanCursoJsp;
 			
@@ -103,11 +106,12 @@ public class DaoUsuario {
 	public void atualizarUsuario(BeanCursoJsp atualizaUsuario) {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "update usuario set login = ?, senha = ? where id = " + atualizaUsuario.getIdUsuario();
+			String sql = "update usuario set login = ?, senha = ?, nome = ? where id = " + atualizaUsuario.getIdUsuario();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, atualizaUsuario.getLogin());
 			preparedStatement.setString(2, atualizaUsuario.getSenha());
+			preparedStatement.setString(3, atualizaUsuario.getNomeUsuario());
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (Exception e) {

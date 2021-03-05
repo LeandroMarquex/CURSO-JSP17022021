@@ -13,6 +13,7 @@ public class BeanCursoJsp {
 	private Long idUsuario;
 	private String login;
 	private String senha;
+	private String nomeUsuario;
 	
 	public boolean validarLoginSenha(String login, String senha) {
 		if (login.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("admin")) {
@@ -24,6 +25,17 @@ public class BeanCursoJsp {
 		}
 	}
 	
+	
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
+
+
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
+
+
 	public Long getIdUsuario() {
 		return idUsuario;
 	}

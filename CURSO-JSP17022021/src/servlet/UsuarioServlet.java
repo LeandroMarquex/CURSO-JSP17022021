@@ -29,6 +29,7 @@ public class UsuarioServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+
 			String acao = request.getParameter("acao");
 			String user = request.getParameter("user");
 
@@ -40,12 +41,15 @@ public class UsuarioServlet extends HttpServlet {
 				view.forward(request, response);
 			} else if (acao.equalsIgnoreCase("editar")) {
 				BeanCursoJsp beanCursoJsp = daoUsuario.consultarUsuario(user);
-				
+
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("user", beanCursoJsp);
 				view.forward(request, response);
-				
-				
+			} else if (acao.equalsIgnoreCase("listartodos")) {
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+				request.setAttribute("usuarios", daoUsuario.listarUsuario());
+				view.forward(request, response);
+
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -56,30 +60,46 @@ public class UsuarioServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String id = request.getParameter("id");
-		String login = request.getParameter("login");
-		String senha = request.getParameter("senha");
 
-		BeanCursoJsp salvarUsuario = new BeanCursoJsp();
+		String acao = request.getParameter("acao");
 
-		salvarUsuario.setIdUsuario(!id.isEmpty() ? Long.parseLong(id) : 0);
-		salvarUsuario.setLogin(login);
-		salvarUsuario.setSenha(senha);
-		
-		if (id == null || id.isEmpty()) {
-			daoUsuario.salvarUsuario(salvarUsuario);
+		if (acao != null && acao.equalsIgnoreCase("reset")) {
+			try {
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+				request.setAttribute("usuarios", daoUsuario.listarUsuario());
+				view.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else {
-			daoUsuario.atualizarUsuario(salvarUsuario);
-		}
-	
 
-		try {
-			RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
-			request.setAttribute("usuarios", daoUsuario.listarUsuario());
-			view.forward(request, response);
+			String id = request.getParameter("id");
+			String login = request.getParameter("login");
+			String senha = request.getParameter("senha");
+			String nome = request.getParameter("nome");
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			BeanCursoJsp salvarUsuario = new BeanCursoJsp();
+
+			salvarUsuario.setIdUsuario(!id.isEmpty() ? Long.parseLong(id) : 0);
+			salvarUsuario.setLogin(login);
+			salvarUsuario.setSenha(senha);
+			salvarUsuario.setNomeUsuario(nome);
+
+			if (id == null || id.isEmpty()) {
+				daoUsuario.salvarUsuario(salvarUsuario);
+			} else {
+				daoUsuario.atualizarUsuario(salvarUsuario);
+			}
+			try {
+				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+				request.setAttribute("usuarios", daoUsuario.listarUsuario());
+				view.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 }
