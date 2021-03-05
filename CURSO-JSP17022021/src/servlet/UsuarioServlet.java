@@ -39,12 +39,16 @@ public class UsuarioServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				view.forward(request, response);
+				
 			} else if (acao.equalsIgnoreCase("editar")) {
+				
 				BeanCursoJsp beanCursoJsp = daoUsuario.consultarUsuario(user);
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				request.setAttribute("user", beanCursoJsp);
 				view.forward(request, response);
+				
 			} else if (acao.equalsIgnoreCase("listartodos")) {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
