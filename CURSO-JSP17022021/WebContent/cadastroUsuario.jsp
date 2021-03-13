@@ -11,6 +11,7 @@
 </head>
 <body>
 	<h1>Cadastro de Usuário</h1>
+	<h3 align="center" style="color: red;">${msg}</h3>
 	<form action="salvarUsuario" method="post" id="formUser">
 		<table>
 			<tr>
@@ -27,13 +28,21 @@
 				<td>Senha:</td>
 				<td><input type="password" id="senha" name="senha"
 					value="${user.senha}"></td>
-			</tr><tr>
+			</tr>
+			<tr>
 				<td>Nome:</td>
 				<td><input type="text" id="nome" name="nome"
 					value="${user.nomeUsuario}"></td>
 			</tr>
+			<tr>
+				<td>Telefone:</td>
+				<td><input type="text" id="telefone" name="telefone"
+					value="${user.telefoneUsuario}"></td>
+			</tr>
 		</table>
-		<input type="submit" value="Salvar"><input type="submit" value="Cancelar" onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'">
+		<input type="submit" value="Salvar"><input type="submit"
+			value="Cancelar"
+			onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'">
 
 	</form>
 	<table>
@@ -41,14 +50,17 @@
 			<th>ID</th>
 			<th>LOGIN</th>
 			<th>NOME</th>
+			<th>TELEFONE</th>
 			<th>DELETE</th>
 			<th>EDITAR</th>
+			
 		</tr>
 		<c:forEach items="${usuarios}" var="user">
 			<tr>
 				<td style="width: 150px"><c:out value="${user.idUsuario}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.login}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.nomeUsuario}"></c:out></td>
+				<td style="width: 150px"><c:out value="${user.telefoneUsuario}"></c:out></td>
 
 				<td><a href="salvarUsuario?acao=delete&user=${user.idUsuario}"><img
 						alt="Excluir" title="Excluir" src="resources/img/excluir.png"

@@ -9,6 +9,9 @@
 <body>
 	<h2>Acesso liberado ao sistema para o seu usuario</h2>
 	<h3>SEJA BEM VINDO AO SISTEMA</h3>
-	<a href="salvarUsuario?acao=listartodos">Cadastro de USUÁRIOS</a>
+	<a href="salvarUsuario?acao=listartodos"> <img alt="Cadastro de USUÁRIOS" title="Cadastro de USUÁRIOS" src="resources/img/loginusuario.jpg"
+						width="200px" height="200px"></a>
+	
+	
 </body>
 </html>

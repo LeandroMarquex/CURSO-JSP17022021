@@ -1,4 +1,5 @@
 ALTER TABLE public.usuario ADD COLUMN nome character varying(500);
+ALTER TABLE public.usuario ADD COLUMN telefone character varying(500);
 
 create SEQUENCE serialuser
 INCREMENT 1

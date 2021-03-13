@@ -14,6 +14,7 @@ public class BeanCursoJsp {
 	private String login;
 	private String senha;
 	private String nomeUsuario;
+	private String telefoneUsuario;
 	
 	public boolean validarLoginSenha(String login, String senha) {
 		if (login.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("admin")) {
@@ -26,6 +27,19 @@ public class BeanCursoJsp {
 	}
 	
 	
+
+	public String getTelefoneUsuario() {
+		return telefoneUsuario;
+	}
+
+
+
+	public void setTelefoneUsuario(String telefoneUsuario) {
+		this.telefoneUsuario = telefoneUsuario;
+	}
+
+
+
 	public String getNomeUsuario() {
 		return nomeUsuario;
 	}
@@ -54,10 +68,7 @@ public class BeanCursoJsp {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	@Override
-	public String toString() {
-		return "BeanCursoJsp [idUsuario=" + idUsuario + ", login=" + login + ", senha=" + senha + "]";
-	}
+	
 	
 	
 	

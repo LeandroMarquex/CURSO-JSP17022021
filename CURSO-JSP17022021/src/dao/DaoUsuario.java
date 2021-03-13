@@ -28,11 +28,12 @@ public class DaoUsuario {
 
 	public void salvarUsuario(BeanCursoJsp salvarUsuario) {
 		try {
-			String sql = "insert into usuario(login, senha, nome) values (?, ?, ?)";
+			String sql = "insert into usuario(login, senha, nome, telefone) values (?, ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, salvarUsuario.getLogin());
 			insert.setString(2, salvarUsuario.getSenha());
 			insert.setString(3, salvarUsuario.getNomeUsuario());
+			insert.setString(4, salvarUsuario.getTelefoneUsuario());
 			insert.execute();
 			connection.commit();
 
@@ -61,6 +62,7 @@ public class DaoUsuario {
 			beanCursoJsp.setLogin(resultSet.getString("login"));
 			beanCursoJsp.setSenha(resultSet.getString("senha"));
 			beanCursoJsp.setNomeUsuario(resultSet.getString("nome"));
+			beanCursoJsp.setTelefoneUsuario(resultSet.getString("telefone"));
 			
 			listar.add(beanCursoJsp);
 			
@@ -95,6 +97,7 @@ public class DaoUsuario {
 			beanCursoJsp.setLogin(resultSet.getString("login"));
 			beanCursoJsp.setSenha(resultSet.getString("senha"));
 			beanCursoJsp.setNomeUsuario(resultSet.getString("nome"));
+			beanCursoJsp.setTelefoneUsuario(resultSet.getString("telefone"));
 			
 			return beanCursoJsp;
 			
@@ -106,12 +109,13 @@ public class DaoUsuario {
 	public void atualizarUsuario(BeanCursoJsp atualizaUsuario) {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "update usuario set login = ?, senha = ?, nome = ? where id = " + atualizaUsuario.getIdUsuario();
+			String sql = "update usuario set login = ?, senha = ?, nome = ?, telefone = ? where id = " + atualizaUsuario.getIdUsuario();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, atualizaUsuario.getLogin());
 			preparedStatement.setString(2, atualizaUsuario.getSenha());
 			preparedStatement.setString(3, atualizaUsuario.getNomeUsuario());
+			preparedStatement.setString(4, atualizaUsuario.getTelefoneUsuario());
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (Exception e) {
@@ -127,6 +131,34 @@ public class DaoUsuario {
 		}
 		
 		
+	}
+	public boolean validarLoginUpdate(String login, String id) throws Exception{
+		String sql = "select count(1) as qtd from usuario where login = '" + login + "' and id <> " + id;
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			
+			
+			return resultSet.getInt("qtd") <= 0;
+			
+		}
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public boolean validarLogin(String login) throws Exception{
+		String sql = "select count(1) as qtd from usuario where login = '" + login + "'";
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			
+			
+			return resultSet.getInt("qtd") <= 0;
+			
+		}
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -39,16 +39,16 @@ public class UsuarioServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				view.forward(request, response);
-				
+
 			} else if (acao.equalsIgnoreCase("editar")) {
-				
+
 				BeanCursoJsp beanCursoJsp = daoUsuario.consultarUsuario(user);
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				request.setAttribute("user", beanCursoJsp);
 				view.forward(request, response);
-				
+
 			} else if (acao.equalsIgnoreCase("listartodos")) {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
@@ -82,6 +82,7 @@ public class UsuarioServlet extends HttpServlet {
 			String login = request.getParameter("login");
 			String senha = request.getParameter("senha");
 			String nome = request.getParameter("nome");
+			String telefone = request.getParameter("telefone");
 
 			BeanCursoJsp salvarUsuario = new BeanCursoJsp();
 
@@ -89,13 +90,18 @@ public class UsuarioServlet extends HttpServlet {
 			salvarUsuario.setLogin(login);
 			salvarUsuario.setSenha(senha);
 			salvarUsuario.setNomeUsuario(nome);
-
-			if (id == null || id.isEmpty()) {
-				daoUsuario.salvarUsuario(salvarUsuario);
-			} else {
-				daoUsuario.atualizarUsuario(salvarUsuario);
-			}
+			salvarUsuario.setTelefoneUsuario(telefone);
 			try {
+				if (id == null || id.isEmpty() && !daoUsuario.validarLogin(login)) {
+					request.setAttribute("msg", "Usuario já existe com o mesmo login!");
+				}
+				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login)) {
+					daoUsuario.salvarUsuario(salvarUsuario);
+				} else if (id != null && !id.isEmpty()) {
+						
+					daoUsuario.atualizarUsuario(salvarUsuario);
+				}
+
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				view.forward(request, response);
