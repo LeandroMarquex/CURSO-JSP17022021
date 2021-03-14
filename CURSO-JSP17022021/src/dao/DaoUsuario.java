@@ -146,6 +146,20 @@ public class DaoUsuario {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	public boolean validarSenhaUpdate(String senha, String id) throws Exception{
+		String sql = "select count(1) as qtd from usuario where senha = '" + senha + "' and id <> " + id;
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			
+			
+			return resultSet.getInt("qtd") <= 0;
+			
+		}
+		// TODO Auto-generated method stub
+		return false;
+	}
 	public boolean validarLogin(String login) throws Exception{
 		String sql = "select count(1) as qtd from usuario where login = '" + login + "'";
 		
@@ -156,6 +170,19 @@ public class DaoUsuario {
 			
 			return resultSet.getInt("qtd") <= 0;
 			
+		}
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean validarSenha(String senha) throws Exception {
+		
+		String sql = "select count(1) as qtd from usuario where senha= '" + senha + "'";
+		
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			return resultSet.getInt("qtd") <= 0;
 		}
 		// TODO Auto-generated method stub
 		return false;

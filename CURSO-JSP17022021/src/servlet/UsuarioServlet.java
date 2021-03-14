@@ -91,15 +91,36 @@ public class UsuarioServlet extends HttpServlet {
 			salvarUsuario.setSenha(senha);
 			salvarUsuario.setNomeUsuario(nome);
 			salvarUsuario.setTelefoneUsuario(telefone);
+
 			try {
-				if (id == null || id.isEmpty() && !daoUsuario.validarLogin(login)) {
-					request.setAttribute("msg", "Usuario já existe com o mesmo login!");
+
+				String msg = null;
+				boolean podeInserir = true;
+
+				if (id == null || id.isEmpty() && !daoUsuario.validarLogin(login)) { // QUANDO FOR USUARIO NOVO
+					// request.setAttribute("msg", "Usuario já existe com o mesmo login!");
+					msg = "Usuário já existe com o mesmo login";
+					podeInserir = false;
+				} else if(id == null || id.isEmpty() && !daoUsuario.validarSenha(senha)) {
+					msg = "\n A senha já existe para outro usuário!";
+					podeInserir = false;
+						 
+					
 				}
-				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login)) {
+				if (msg != null) {
+					request.setAttribute("msg", msg);
+				}
+				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeInserir) {
 					daoUsuario.salvarUsuario(salvarUsuario);
-				} else if (id != null && !id.isEmpty()) {
-						
-					daoUsuario.atualizarUsuario(salvarUsuario);
+				} else if (id != null && !id.isEmpty() && podeInserir) {
+					if (!daoUsuario.validarLoginUpdate(login, id)) {
+						request.setAttribute("msg", "Este Login já existe e pertence a um outro usuario");
+
+					} else if ( !daoUsuario.validarSenhaUpdate(senha, id)){
+						request.setAttribute("msg", "Este SENHA já  pertence a um outro usuario");
+					}else {
+						daoUsuario.atualizarUsuario(salvarUsuario);
+					}
 				}
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
