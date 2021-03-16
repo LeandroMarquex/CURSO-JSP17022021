@@ -86,7 +86,7 @@ public class UsuarioServlet extends HttpServlet {
 
 			BeanCursoJsp salvarUsuario = new BeanCursoJsp();
 
-			salvarUsuario.setIdUsuario(!id.isEmpty() ? Long.parseLong(id) : 0);
+			salvarUsuario.setIdUsuario(!id.isEmpty() ? Long.parseLong(id) : null);
 			salvarUsuario.setLogin(login);
 			salvarUsuario.setSenha(senha);
 			salvarUsuario.setNomeUsuario(nome);
@@ -116,11 +116,15 @@ public class UsuarioServlet extends HttpServlet {
 					if (!daoUsuario.validarLoginUpdate(login, id)) {
 						request.setAttribute("msg", "Este Login já existe e pertence a um outro usuario");
 
-					} else if ( !daoUsuario.validarSenhaUpdate(senha, id)){
+					} if ( !daoUsuario.validarSenhaUpdate(senha, id)){
 						request.setAttribute("msg", "Este SENHA já  pertence a um outro usuario");
 					}else {
 						daoUsuario.atualizarUsuario(salvarUsuario);
 					}
+					
+				}
+				if (!podeInserir) {
+					request.setAttribute("user", salvarUsuario);
 				}
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
