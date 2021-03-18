@@ -9,10 +9,9 @@
 <body>
 	<h2>Acesso liberado ao sistema para o seu usuario</h2>
 	<h3>SEJA BEM VINDO AO SISTEMA</h3>
-	<a href="salvarUsuario?acao=listartodos"> <img alt="Cadastro de USUÁRIOS" title="Cadastro de USUÁRIOS" src="resources/img/loginusuario.jpg"
-						width="200px" height="200px"></a>
-	 <a href="salvarProduto?acao=listartodos"><img width="200px" height="200px" title="Cadastro de Produto" alt="Cadastro de Produto" src="resources/img/icone-produto.png"> </a>
-	
+	<a href="salvarUsuario?acao=listartodos"><img width="100px" height="100px" title="Cadastro de usuário" alt="Cadastro de usuário" src="resources/img/loginusuario.jpg"> </a>
+	 
+	 <a href="salvarProduto?acao=listartodos"><img width="100px" height="100px" title="Cadastro de Produto" alt="Cadastro de Produto" src="resources/img/icone-produto.png"> </a>
 	
 </body>
 </html>

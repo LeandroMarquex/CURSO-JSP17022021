@@ -65,8 +65,8 @@
 						</c:out></td>
 					<td style="width: 150px"><c:out value="${produto.nomeProduto}">
 						</c:out></td>
-					<td><c:out value="${produto.quantidade}"></c:out></td>
-					<td><c:out value="${produto.valor}"></c:out></td>
+					<td><c:out value="${produto.quantidadeProduto}"></c:out></td>
+					<td><c:out value="${produto.valorProduto}"></c:out></td>
 
 					<td><a href="salvarProduto?acao=delete&produto=${produto.idProduto}"><img
 							src="resources/img/excluir.png" alt="excluir" title="Excluir"

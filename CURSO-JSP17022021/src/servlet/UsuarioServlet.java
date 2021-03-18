@@ -97,31 +97,42 @@ public class UsuarioServlet extends HttpServlet {
 				String msg = null;
 				boolean podeInserir = true;
 
-				if (id == null || id.isEmpty() && !daoUsuario.validarLogin(login)) { // QUANDO FOR USUARIO NOVO
+				if (login == null || login.isEmpty()) {
+					msg = "Login deve ser informado";
+					podeInserir = false;
+				} else if (senha == null || senha.isEmpty()) {
+					msg = "Senha deve ser informada.";
+					podeInserir = false;
+				} else if (nome == null || nome.isEmpty()) {
+					msg = "Nome deve ser informado";
+					podeInserir = false;
+				} else if (telefone == null || telefone.isEmpty()) {
+					msg = "Telefone deve ser informado";
+					podeInserir = false;
+				} else if (id == null || id.isEmpty() && !daoUsuario.validarLogin(login)) { // QUANDO FOR USUARIO NOVO
 					// request.setAttribute("msg", "Usuario já existe com o mesmo login!");
 					msg = "Usuário já existe com o mesmo login";
 					podeInserir = false;
-				} else if(id == null || id.isEmpty() && !daoUsuario.validarSenha(senha)) {
+				} else if (id == null || id.isEmpty() && !daoUsuario.validarSenha(senha)) {
 					msg = "\n A senha já existe para outro usuário!";
 					podeInserir = false;
-						 
-					
+
 				}
 				if (msg != null) {
 					request.setAttribute("msg", msg);
-				}
-				if (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeInserir) {
+				} else if  (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeInserir) {
 					daoUsuario.salvarUsuario(salvarUsuario);
 				} else if (id != null && !id.isEmpty() && podeInserir) {
 					if (!daoUsuario.validarLoginUpdate(login, id)) {
 						request.setAttribute("msg", "Este Login já existe e pertence a um outro usuario");
 
-					} if ( !daoUsuario.validarSenhaUpdate(senha, id)){
+					}
+					if (!daoUsuario.validarSenhaUpdate(senha, id)) {
 						request.setAttribute("msg", "Este SENHA já  pertence a um outro usuario");
-					}else {
+					} else {
 						daoUsuario.atualizarUsuario(salvarUsuario);
 					}
-					
+
 				}
 				if (!podeInserir) {
 					request.setAttribute("user", salvarUsuario);

@@ -9,10 +9,14 @@
 <meta charset="ISO-8859-1">
 <title>Cadastro de Usuario</title>
 </head>
+
 <body>
 	<h1>Cadastro de Usuário</h1>
 	<h3 align="center" style="color: red;">${msg}</h3>
-	<form action="salvarUsuario" method="post" id="formUser">
+	<form action="salvarUsuario" method="post" id="formUser"
+		onsubmit="return validarCampos() ? true : false;">
+		
+
 		<table>
 			<tr>
 				<td>Código:</td>
@@ -53,7 +57,7 @@
 			<th>TELEFONE</th>
 			<th>DELETE</th>
 			<th>EDITAR</th>
-			
+
 		</tr>
 		<c:forEach items="${usuarios}" var="user">
 			<tr>
@@ -73,5 +77,27 @@
 
 		</c:forEach>
 	</table>
+	<script type="text/javascript">
+	function validarCampos() {
+		if (document.getElementById("login").value == '') {
+			alert('Informe o Login');
+			return false;
+			
+		} else if (document.getElementById("senha").value == '') {
+			alert('Informe o Senha');
+			return false;
+			
+		} else if (document.getElementById("nome").value == '') {
+			alert('Informe o Nome');
+			return false;
+			
+		} else if (document.getElementById("telefone").value == '') {
+			alert('Informe o Telefone');
+			return false;
+			
+		} 
+		return true;
+	}
+	</script>
 </body>
 </html>
