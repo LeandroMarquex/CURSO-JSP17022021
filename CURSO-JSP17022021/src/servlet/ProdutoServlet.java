@@ -45,8 +45,9 @@ public class ProdutoServlet extends HttpServlet {
 				ProdutoBean produtoBean = daoProduto.consultarProduto(produto);
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
-				request.setAttribute("produtos", daoProduto.listarProduto());
 				request.setAttribute("produto", produtoBean);
+				request.setAttribute("produtos", daoProduto.listarProduto());
+				
 				view.forward(request, response);
 
 			} else if (acao.equalsIgnoreCase("listartodos")) {
@@ -64,7 +65,94 @@ public class ProdutoServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String acao = request.getParameter("acao");
 
+		if (acao != null && acao.equalsIgnoreCase("reset")) {
+			try {
+				RequestDispatcher view = request
+						.getRequestDispatcher("/cadastroProduto.jsp");
+				request.setAttribute("produtos", daoProduto.listarProduto());
+				view.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+
+			String idProduto = request.getParameter("idProduto");
+			String nomeProduto = request.getParameter("nomeProduto");
+			String quantidadeProduto = request.getParameter("quantidadeProduto");
+			String valorProduto = request.getParameter("valorProduto");
+
+			try {
+
+				String msg = null;
+				boolean podeInserir = true;
+
+				if (valorProduto == null || valorProduto.isEmpty()) {
+					msg = "Valor R$ deve ser informado";
+					podeInserir = false;
+
+				} else if (quantidadeProduto == null || quantidadeProduto.isEmpty()) {
+					msg = "Quantidade deve ser informado";
+					podeInserir = false;
+
+				} else if (nomeProduto == null || nomeProduto.isEmpty()) {
+					msg = "Nome deve ser informado";
+					podeInserir = false;
+
+				} else if (idProduto == null || idProduto.isEmpty()
+						&& !daoProduto.validarNome(nomeProduto)) {// QUANDO
+															// FDOR
+															// PRODUTO
+															// NOVO
+					msg = "Produto já existe com o mesmo nome!";
+					podeInserir = false;
+
+				}
+
+				ProdutoBean produto = new ProdutoBean();
+				produto.setNomeProduto(nomeProduto);
+				produto.setIdProduto(!idProduto.isEmpty() ? Long.parseLong(idProduto) : null);
+
+				if (quantidadeProduto != null && !quantidadeProduto.isEmpty()) {
+					produto.setQuantidadeProduto(Double.parseDouble(quantidadeProduto));
+				}
+
+				if (valorProduto != null && !valorProduto.isEmpty())
+					produto.setValorProduto(Double.parseDouble(valorProduto));
+
+				if (msg != null) {
+					request.setAttribute("msg", msg);
+				} else if (idProduto == null || idProduto.isEmpty()
+						&& daoProduto.validarNome(nomeProduto) && podeInserir) {
+
+					daoProduto.salvarProoduto(produto);
+
+				} else if (idProduto != null && !idProduto.isEmpty() && podeInserir) {
+					daoProduto.atualizarProduto(produto);
+				}
+
+				if (!podeInserir) {
+					request.setAttribute("produto", produto);
+				}
+
+				RequestDispatcher view = request
+						.getRequestDispatcher("/cadastroProduto.jsp");
+				request.setAttribute("produtos", daoProduto.listarProduto());
+				view.forward(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+	}
+
+}
+
+/*
 		String acao = request.getParameter("acao");
 
 		if (acao != null && acao.equalsIgnoreCase("reset")) {
@@ -91,7 +179,7 @@ public class ProdutoServlet extends HttpServlet {
 			if (nomeProduto == null || nomeProduto.isEmpty()) {
 				msg = "Nome deve ser informado";
 				podeInserir = false;
-				podeInserir = false;
+		
 				
 			}	 else if (idProduto == null || idProduto.isEmpty() && !daoProduto.validarNome(nomeProduto)) {// QUANDO
 				// FDOR
@@ -107,8 +195,9 @@ public class ProdutoServlet extends HttpServlet {
 			}	
 				ProdutoBean salvarProduto = new ProdutoBean();
 
-				salvarProduto.setIdProduto(!idProduto.isEmpty() ? Long.parseLong(idProduto) : null);
+			
 				salvarProduto.setNomeProduto(nomeProduto);
+				salvarProduto.setIdProduto(!idProduto.isEmpty() ? Long.parseLong(idProduto) : null);
 				// salvarProduto.setQuantidadeProduto(Double.parseDouble(quantidadeProduto));
 				// salvarProduto.setValorProduto(Double.parseDouble(valorProduto));
 
@@ -122,7 +211,7 @@ public class ProdutoServlet extends HttpServlet {
 				} else if (idProduto == null
 						|| idProduto.isEmpty() && daoProduto.validarNome(nomeProduto) && podeInserir) {
 					daoProduto.salvarProoduto(salvarProduto);
-				} else if (idProduto == null || idProduto.isEmpty() && podeInserir) {
+				} else if (idProduto != null && idProduto.isEmpty() && podeInserir) {
 
 					daoProduto.atualizarProduto(salvarProduto);
 
@@ -145,3 +234,4 @@ public class ProdutoServlet extends HttpServlet {
 	}
 
 }
+*/
