@@ -15,6 +15,12 @@ public class BeanCursoJsp {
 	private String senha;
 	private String nomeUsuario;
 	private String telefoneUsuario;
+	private String cepUsuario;
+	private String ruaUsuario;
+	private String bairroUsuario;
+	private String cidadeUsuario;
+	private String estadoUsuario;
+	private String ibgeUsuario;
 	
 	public boolean validarLoginSenha(String login, String senha) {
 		if (login.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("admin")) {
@@ -27,6 +33,78 @@ public class BeanCursoJsp {
 	}
 	
 	
+
+	public String getCepUsuario() {
+		return cepUsuario;
+	}
+
+
+
+	public void setCepUsuario(String cepUsuario) {
+		this.cepUsuario = cepUsuario;
+	}
+
+
+
+	public String getRuaUsuario() {
+		return ruaUsuario;
+	}
+
+
+
+	public void setRuaUsuario(String ruaUsuario) {
+		this.ruaUsuario = ruaUsuario;
+	}
+
+
+
+	public String getBairroUsuario() {
+		return bairroUsuario;
+	}
+
+
+
+	public void setBairroUsuario(String bairroUsuario) {
+		this.bairroUsuario = bairroUsuario;
+	}
+
+
+
+	public String getCidadeUsuario() {
+		return cidadeUsuario;
+	}
+
+
+
+	public void setCidadeUsuario(String cidadeUsuario) {
+		this.cidadeUsuario = cidadeUsuario;
+	}
+
+
+
+	public String getEstadoUsuario() {
+		return estadoUsuario;
+	}
+
+
+
+	public void setEstadoUsuario(String estadoUsuario) {
+		this.estadoUsuario = estadoUsuario;
+	}
+
+
+
+	public String getIbgeUsuario() {
+		return ibgeUsuario;
+	}
+
+
+
+	public void setIbgeUsuario(String ibgeUsuario) {
+		this.ibgeUsuario = ibgeUsuario;
+	}
+
+
 
 	public String getTelefoneUsuario() {
 		return telefoneUsuario;

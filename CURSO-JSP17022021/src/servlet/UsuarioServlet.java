@@ -83,6 +83,13 @@ public class UsuarioServlet extends HttpServlet {
 			String senha = request.getParameter("senha");
 			String nome = request.getParameter("nome");
 			String telefone = request.getParameter("telefone");
+			
+			String cep = request.getParameter("cep");
+			String rua = request.getParameter("rua");
+			String bairro = request.getParameter("bairro");
+			String cidade = request.getParameter("cidade");
+			String estado = request.getParameter("estado");
+			String ibge = request.getParameter("ibge");
 
 			BeanCursoJsp salvarUsuario = new BeanCursoJsp();
 
@@ -91,6 +98,13 @@ public class UsuarioServlet extends HttpServlet {
 			salvarUsuario.setSenha(senha);
 			salvarUsuario.setNomeUsuario(nome);
 			salvarUsuario.setTelefoneUsuario(telefone);
+			salvarUsuario.setCepUsuario(cep);
+			salvarUsuario.setRuaUsuario(rua);
+			salvarUsuario.setBairroUsuario(bairro);
+			salvarUsuario.setCidadeUsuario(cidade);
+			salvarUsuario.setEstadoUsuario(estado);
+			salvarUsuario.setIbgeUsuario(ibge);
+
 
 			try {
 

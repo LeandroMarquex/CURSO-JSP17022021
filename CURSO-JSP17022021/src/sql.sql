@@ -43,3 +43,17 @@ WITH (
 );
 ALTER TABLE produto
   OWNER TO postgres;
+  
+  ALTER TABLE public.usuario ADD COLUMN cep character varying(500);
+ALTER TABLE public.usuario ADD COLUMN rua character varying(500);
+ALTER TABLE public.usuario ADD COLUMN bairro character varying(500);
+ALTER TABLE public.usuario ADD COLUMN cidade character varying(500);
+ALTER TABLE public.usuario ADD COLUMN estado character varying(500);
+ALTER TABLE public.usuario ADD COLUMN ibge character varying(500);
+
+INSERT INTO public.usuario(
+            login, senha, id, nome, telefone, cep, rua, bairro, cidade, estado, 
+            ibge)
+    VALUES ('admin', 'admin', 100, 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 
+            'admin');
+
