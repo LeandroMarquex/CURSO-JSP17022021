@@ -31,57 +31,55 @@
 				<td>Código:</td>
 				<td><input type="text" readonly="readonly" id="id" name="id"
 					value="${user.idUsuario}"></td>
+
+				<td>CEP:</td>
+				<td><input type="text" id="cep" name="cep"
+					value="${user.cepUsuario}" onblur="consultaCep()"></td>
 			</tr>
 			<tr>
 				<td>Login:</td>
 				<td><input type="text" id="login" name="login"
 					value="${user.login}"></td>
+
+				<td>Rua:</td>
+				<td><input type="text" id="rua" name="rua"
+					value="${user.ruaUsuario}"></td>
+
+
 			</tr>
 			<tr>
 				<td>Senha:</td>
 				<td><input type="password" id="senha" name="senha"
 					value="${user.senha}"></td>
+
+				<td>Bairro:</td>
+				<td><input type="text" id="bairro" name="bairro"
+					value="${user.bairroUsuario}"></td>
 			</tr>
 			<tr>
 				<td>Nome:</td>
 				<td><input type="text" id="nome" name="nome"
 					value="${user.nomeUsuario}"></td>
+
+				<td>Cidade:</td>
+				<td><input type="text" id="cidade" name="cidade"
+					value="${user.cidadeUsuario}"></td>
 			</tr>
 			<tr>
 				<td>Telefone:</td>
 				<td><input type="text" id="telefone" name="telefone"
 					value="${user.telefoneUsuario}"></td>
-			</tr>
-			<tr>
-				<td>CEP:</td>
-				<td><input type="text" id="cep" name="cep" value="${user.cepUsuario}"
-					onblur="consultaCep()"></td>
-			</tr>
-			<tr>
-				<td>Rua:</td>
-				<td><input type="text" id="rua" name="rua"  value="${user.ruaUsuario}"
-					></td>
-			</tr>
-			<tr>
-				<td>Bairro:</td>
-				<td><input type="text" id="bairro" name="bairro"  value="${user.bairroUsuario}"
-					></td>
-			</tr>
-			<tr>
-				<td>Cidade:</td>
-				<td><input type="text" id="cidade" name="cidade"  value="${user.cidadeUsuario}"
-					></td>
-			</tr>
-			
-			<tr>
+
 				<td>Estado:</td>
-				<td><input type="text" id="estado" name="estado"  value="${user.estadoUsuario}"
-					></td>
+				<td><input type="text" id="estado" name="estado"
+					value="${user.estadoUsuario}"></td>
 			</tr>
+
+
 			<tr>
 				<td>IBGE::</td>
-				<td><input type="text" id="ibge" name="ibge"  value="${user.ibgeUsuario}"
-					></td>
+				<td><input type="text" id="ibge" name="ibge"
+					value="${user.ibgeUsuario}"></td>
 			</tr>
 		</table>
 		<input type="submit" value="Salvar"><input type="submit"
@@ -103,6 +101,7 @@
 			<th>IBGE</th>
 			<th>DELETE</th>
 			<th>EDITAR</th>
+			<th>FONES</th>
 
 		</tr>
 		<c:forEach items="${usuarios}" var="user">
@@ -117,15 +116,21 @@
 				<td style="width: 150px"><c:out value="${user.cidadeUsuario}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.estadoUsuario}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.ibgeUsuario}"></c:out></td>
-				
+
 
 				<td><a href="salvarUsuario?acao=delete&user=${user.idUsuario}"><img
 						alt="Excluir" title="Excluir" src="resources/img/excluir.png"
 						width="20px" height="20px"></a></td>
+
+
 				<td><a href="salvarUsuario?acao=editar&user=${user.idUsuario}"><img
-						alt="Alterar" title="Alterar" src="resources/img/editar.png"
+						alt="Telefones" title="Telefones" src="resources/img/editar.png"
 						width="20px" height="20px"></a></td>
 
+
+				<td><a href="salvarTelefones?acao=addTelefone&user=${user.idUsuario}"><img
+						alt="Alterar" title="Alterar" src="resources/img/phone2.ico"
+						width="20px" height="20px"></a></td>
 			</tr>
 
 		</c:forEach>
@@ -158,7 +163,7 @@
 			//Consulta o webservice viacep.com.br/
 			$.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?",
 					function(dados) {
-				//		alert(dados.logradouro);
+						//		alert(dados.logradouro);
 
 						if (!("erro" in dados)) {
 							//Atualiza os campos com os valores da consulta.

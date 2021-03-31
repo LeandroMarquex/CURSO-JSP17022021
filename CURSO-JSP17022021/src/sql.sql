@@ -57,3 +57,14 @@ INSERT INTO public.usuario(
     VALUES ('admin', 'admin', 100, 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 'admin', 
             'admin');
 
+////////////////////////
+
+   
+ CREATE SEQUENCE telefonesequence
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE telefonesequence
+  OWNER TO postgres;

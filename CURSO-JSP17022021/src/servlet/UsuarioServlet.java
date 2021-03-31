@@ -38,6 +38,7 @@ public class UsuarioServlet extends HttpServlet {
 
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
+				request.setAttribute("msg", "Deletado com sucesso");
 				view.forward(request, response);
 
 			} else if (acao.equalsIgnoreCase("editar")) {
@@ -47,6 +48,7 @@ public class UsuarioServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				request.setAttribute("user", beanCursoJsp);
+	//			request.setAttribute("msg", "Editado com sucesso");
 				view.forward(request, response);
 
 			} else if (acao.equalsIgnoreCase("listartodos")) {
@@ -136,6 +138,7 @@ public class UsuarioServlet extends HttpServlet {
 					request.setAttribute("msg", msg);
 				} else if  (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeInserir) {
 					daoUsuario.salvarUsuario(salvarUsuario);
+					request.setAttribute("msg", "Salvo com sucesso");
 				} else if (id != null && !id.isEmpty() && podeInserir) {
 					if (!daoUsuario.validarLoginUpdate(login, id)) {
 						request.setAttribute("msg", "Este Login já existe e pertence a um outro usuario");
@@ -145,6 +148,7 @@ public class UsuarioServlet extends HttpServlet {
 						request.setAttribute("msg", "Este SENHA já  pertence a um outro usuario");
 					} else {
 						daoUsuario.atualizarUsuario(salvarUsuario);
+						request.setAttribute("msg", "Atualizado com sucesso");
 					}
 
 				}
