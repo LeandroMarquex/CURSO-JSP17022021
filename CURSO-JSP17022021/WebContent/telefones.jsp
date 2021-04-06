@@ -16,7 +16,7 @@
 	<a href="acessoliberado.jsp">Voltar para o Inicio</a>
 	<br>
 	<a href="index.jsp">Sair</a>
-	<h1>Cadastro de Usuário</h1>
+	<h1>Cadastro de TELEFONES</h1>
 	<h3 align="center" style="color: red;">${msg}</h3>
 	<form action="salvarTelefones" method="post" id="formUser"
 		onsubmit="return validarCampos() ? true : false;">
@@ -31,25 +31,28 @@
 
 				<td>NOME:</td>
 				<td><input type="text" id="nome" name="nome"
-					readonly="readonly" class="field-long" value="${userEscolhido.nomeUsuario}"></td>
-					<td>
-					<select id="tipo" name="tipo">
-						<option>Casa</option>
-						<option>Contato</option>
+					readonly="readonly" class="field-long"
+					value="${userEscolhido.nomeUsuario}"></td>
+				<td><select id="tipo" name="tipo">
 						<option>Celular</option>
-					</select>
-					
-					</td>
+						<option>Casa</option>
+						<option>Trabalho</option>
+						<option>Recado</option>
+						<option>Outros</option>
+				</select></td>
 
 
 			</tr>
 			<tr>
 				<td>NÚMERO</td>
 				<td><input type="text" id="numero" name="numero"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="Salvar" /></td>
+			</tr>
 		</table>
-		<input type="submit" value="Salvar"><input type="submit"
-			value="Cancelar"
-			onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'">
+
 
 	</form>
 	<table>
@@ -61,16 +64,19 @@
 
 
 		</tr>
+
 		<c:forEach items="${telefones}" var="telefone">
 			<tr>
 				<td style="width: 150px"><c:out value="${telefone.idTelefone}"></c:out></td>
-				<td style="width: 150px"><c:out value="${telefone.numeroTelefone}"></c:out></td>
-				<td style="width: 150px"><c:out value="${telefone.tipoTelefone}"></c:out></td>
+				<td style="width: 150px"><c:out
+						value="${telefone.numeroTelefone}"></c:out></td>
+				<td style="width: 150px"><c:out
+						value="${telefone.tipoTelefone}"></c:out></td>
 
 
 
 				<td><a
-					href="salvarTelefones?acao=deleteTelefone&foneId=${telefone.idTelefone}"><img
+					href="salvarTelefones?acao=deleteTelefone&idFone=${telefone.idTelefone}"><img
 						alt="Excluir" title="Excluir" src="resources/img/excluir.png"
 						width="20px" height="20px"></a></td>
 

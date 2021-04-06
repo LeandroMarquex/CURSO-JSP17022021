@@ -23,7 +23,7 @@
 	<h1>Cadastro de Usuário</h1>
 	<h3 align="center" style="color: red;">${msg}</h3>
 	<form action="salvarUsuario" method="post" id="formUser"
-		onsubmit="return validarCampos() ? true : false;">
+		onsubmit="return validarCampos() ? true : false;" enctype="multipart/form-data">
 
 
 		<table>
@@ -33,7 +33,7 @@
 					value="${user.idUsuario}"></td>
 
 				<td>CEP:</td>
-				<td><input type="text" id="cep" name="cep"
+				<td><input type="text" id="cep" name="cep" placeholder="Informe o cep do usuario"
 					value="${user.cepUsuario}" onblur="consultaCep()"></td>
 			</tr>
 			<tr>
@@ -53,16 +53,16 @@
 					value="${user.senha}"></td>
 
 				<td>Bairro:</td>
-				<td><input type="text" id="bairro" name="bairro"
+				<td><input type="text" id="bairro" name="bairro" placeholder="Informe o  bairro"
 					value="${user.bairroUsuario}"></td>
 			</tr>
 			<tr>
 				<td>Nome:</td>
-				<td><input type="text" id="nome" name="nome"
+				<td><input type="text" id="nome" name="nome" placeholder="Informe o nome do usuario"
 					value="${user.nomeUsuario}"></td>
 
 				<td>Cidade:</td>
-				<td><input type="text" id="cidade" name="cidade"
+				<td><input type="text" id="cidade" name="cidade" placeholder="Informe a cidade"
 					value="${user.cidadeUsuario}"></td>
 			</tr>
 			<tr>
@@ -81,6 +81,11 @@
 				<td><input type="text" id="ibge" name="ibge"
 					value="${user.ibgeUsuario}"></td>
 			</tr>
+			<tr>
+				<td>FOTO:</td>
+				<td><input type="file" name="foto" value="Foto"></td>
+			</tr>
+			
 		</table>
 		<input type="submit" value="Salvar"><input type="submit"
 			value="Cancelar"

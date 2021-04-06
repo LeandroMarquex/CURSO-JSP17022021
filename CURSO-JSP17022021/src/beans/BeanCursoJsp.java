@@ -21,6 +21,8 @@ public class BeanCursoJsp {
 	private String cidadeUsuario;
 	private String estadoUsuario;
 	private String ibgeUsuario;
+	private String fotoBase64;
+	private String contentType;
 	
 	public boolean validarLoginSenha(String login, String senha) {
 		if (login.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("admin")) {
@@ -33,6 +35,30 @@ public class BeanCursoJsp {
 	}
 	
 	
+
+	public String getFotoBase64() {
+		return fotoBase64;
+	}
+
+
+
+	public void setFotoBase64(String fotoBase64) {
+		this.fotoBase64 = fotoBase64;
+	}
+
+
+
+	public String getContentType() {
+		return contentType;
+	}
+
+
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+
 
 	public String getCepUsuario() {
 		return cepUsuario;

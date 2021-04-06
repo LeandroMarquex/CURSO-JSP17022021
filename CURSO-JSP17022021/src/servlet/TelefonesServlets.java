@@ -54,15 +54,16 @@ public class TelefonesServlets extends HttpServlet {
 
 				RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
 				request.setAttribute("telefones", daoTelefone.listarTelefone(beanCursoJsp.getIdUsuario()));
-				request.setAttribute("msg", "Telefone Salvo com suceso");
+				request.setAttribute("msg", "Telefone Salvo com sucesso");
 				view.forward(request, response);
 			} else if(acao.equalsIgnoreCase("deleteTelefone")) {
-				String foneId = request.getParameter("foneId");
-				daoTelefone.deleteTelefone(foneId);
+				String idFone = request.getParameter("idFone");
+				daoTelefone.deleteTelefone(idFone);
 
 		
+				
 				RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
-				request.setAttribute("telefones", daoTelefone.listarTelefone(Long.parseLong(foneId)));
+				request.setAttribute("telefones", daoTelefone.listarTelefone(Long.parseLong(idFone)));
 				request.setAttribute("msg", "Excluído Com Sucesso!");
 				view.forward(request, response);
 			}
@@ -95,7 +96,7 @@ public class TelefonesServlets extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
 
 			request.setAttribute("telefones", daoTelefone.listarTelefone(beanCursoJsp.getIdUsuario()));
-			// request.setAttribute("msg", "TELEFONE salvo com sucesso");
+		//	 request.setAttribute("msg", "TELEFONE salvo com sucesso");
 			view.forward(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
