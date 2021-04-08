@@ -28,7 +28,7 @@ public class DaoUsuario {
 
 	public void salvarUsuario(BeanCursoJsp salvarUsuario) {
 		try {
-			String sql = "insert into usuario(login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, fotobase64, contenttype ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "insert into usuario(login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, fotobase64, contenttype, contentTypeCurriculo, curriculoBase64 ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, salvarUsuario.getLogin());
 			insert.setString(2, salvarUsuario.getSenha());
@@ -42,6 +42,8 @@ public class DaoUsuario {
 			insert.setString(10, salvarUsuario.getIbgeUsuario());
 			insert.setString(11, salvarUsuario.getFotoBase64());
 			insert.setString(12, salvarUsuario.getContentType());
+			insert.setString(13, salvarUsuario.getContentTypeCurriculo());
+			insert.setString(14, salvarUsuario.getCurriculoBase64());
 			insert.execute();
 			connection.commit();
 
@@ -78,6 +80,12 @@ public class DaoUsuario {
 			beanCursoJsp.setCidadeUsuario(resultSet.getString("cidade"));
 			beanCursoJsp.setEstadoUsuario(resultSet.getString("estado"));
 			beanCursoJsp.setIbgeUsuario(resultSet.getString("ibge"));
+			
+			beanCursoJsp.setContentType(resultSet.getString("contenttype"));
+			beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
+		
+			beanCursoJsp.setContentTypeCurriculo(resultSet.getString("contentTypeCurriculo"));
+			beanCursoJsp.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			
 			listar.add(beanCursoJsp);
 			
@@ -120,6 +128,13 @@ public class DaoUsuario {
 			beanCursoJsp.setCidadeUsuario(resultSet.getString("cidade"));
 			beanCursoJsp.setEstadoUsuario(resultSet.getString("estado"));
 			beanCursoJsp.setIbgeUsuario(resultSet.getString("ibge"));
+			
+
+			beanCursoJsp.setContentType(resultSet.getString("contenttype"));
+			beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
+		
+			beanCursoJsp.setContentTypeCurriculo(resultSet.getString("contentTypeCurriculo"));
+			beanCursoJsp.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			
 			return beanCursoJsp;
 			

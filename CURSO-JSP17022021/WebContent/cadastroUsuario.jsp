@@ -23,7 +23,8 @@
 	<h1>Cadastro de Usuário</h1>
 	<h3 align="center" style="color: red;">${msg}</h3>
 	<form action="salvarUsuario" method="post" id="formUser"
-		onsubmit="return validarCampos() ? true : false;" enctype="multipart/form-data">
+		onsubmit="return validarCampos() ? true : false;"
+		enctype="multipart/form-data">
 
 
 		<table>
@@ -33,8 +34,9 @@
 					value="${user.idUsuario}"></td>
 
 				<td>CEP:</td>
-				<td><input type="text" id="cep" name="cep" placeholder="Informe o cep do usuario"
-					value="${user.cepUsuario}" onblur="consultaCep()"></td>
+				<td><input type="text" id="cep" name="cep"
+					placeholder="Informe o cep do usuario" value="${user.cepUsuario}"
+					onblur="consultaCep()"></td>
 			</tr>
 			<tr>
 				<td>Login:</td>
@@ -53,17 +55,17 @@
 					value="${user.senha}"></td>
 
 				<td>Bairro:</td>
-				<td><input type="text" id="bairro" name="bairro" placeholder="Informe o  bairro"
-					value="${user.bairroUsuario}"></td>
+				<td><input type="text" id="bairro" name="bairro"
+					placeholder="Informe o  bairro" value="${user.bairroUsuario}"></td>
 			</tr>
 			<tr>
 				<td>Nome:</td>
-				<td><input type="text" id="nome" name="nome" placeholder="Informe o nome do usuario"
-					value="${user.nomeUsuario}"></td>
+				<td><input type="text" id="nome" name="nome"
+					placeholder="Informe o nome do usuario" value="${user.nomeUsuario}"></td>
 
 				<td>Cidade:</td>
-				<td><input type="text" id="cidade" name="cidade" placeholder="Informe a cidade"
-					value="${user.cidadeUsuario}"></td>
+				<td><input type="text" id="cidade" name="cidade"
+					placeholder="Informe a cidade" value="${user.cidadeUsuario}"></td>
 			</tr>
 			<tr>
 				<td>Telefone:</td>
@@ -85,7 +87,11 @@
 				<td>FOTO:</td>
 				<td><input type="file" name="foto" value="Foto"></td>
 			</tr>
-			
+			<tr>
+				<td>CURRICULO:</td>
+				<td><input type="file" name="curriculo" value="curriculo"></td>
+			</tr>
+
 		</table>
 		<input type="submit" value="Salvar"><input type="submit"
 			value="Cancelar"
@@ -96,6 +102,8 @@
 		<tr>
 			<th>ID</th>
 			<th>LOGIN</th>
+			<th>FOTO</th>
+			<th>CURRICULO</th>
 			<th>NOME</th>
 			<th>TELEFONE</th>
 			<th>CEP</th>
@@ -113,6 +121,10 @@
 			<tr>
 				<td style="width: 150px"><c:out value="${user.idUsuario}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.login}"></c:out></td>
+				<td><a href="salvarUsuario?acao=download&tipo=imagem&user=${user.idUsuario}"><img
+						src='<c:out value="${user.tempFotoUser}"/>' alt="Imagem User"
+						title="Imagem User" width="32px" height="32px" /> </a></td>
+				<td><a href="salvarUsuario?acao=download&tipo=curriculo&user=${user.idUsuario}">Curriculo</a></td>
 				<td style="width: 150px"><c:out value="${user.nomeUsuario}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.telefoneUsuario}"></c:out></td>
 				<td style="width: 150px"><c:out value="${user.cepUsuario}"></c:out></td>
@@ -133,7 +145,8 @@
 						width="20px" height="20px"></a></td>
 
 
-				<td><a href="salvarTelefones?acao=addTelefone&user=${user.idUsuario}"><img
+				<td><a
+					href="salvarTelefones?acao=addTelefone&user=${user.idUsuario}"><img
 						alt="Alterar" title="Alterar" src="resources/img/phone2.ico"
 						width="20px" height="20px"></a></td>
 			</tr>

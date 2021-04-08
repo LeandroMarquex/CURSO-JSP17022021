@@ -68,3 +68,8 @@ INSERT INTO public.usuario(
   CACHE 1;
 ALTER TABLE telefonesequence
   OWNER TO postgres;
+  
+  ALTER TABLE public.usuario ADD COLUMN contentType text;
+ALTER TABLE public.usuario ADD COLUMN fotoBase64 text;
+ALTER TABLE public.usuario ADD COLUMN contentTypeCurriculo text;
+ALTER TABLE public.usuario ADD COLUMN curriculoBase64 text;

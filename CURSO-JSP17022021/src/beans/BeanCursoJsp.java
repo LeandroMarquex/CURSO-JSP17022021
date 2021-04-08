@@ -23,7 +23,44 @@ public class BeanCursoJsp {
 	private String ibgeUsuario;
 	private String fotoBase64;
 	private String contentType;
+	private String tempFotoUser;
+	private String contentTypeCurriculo;
+	private String curriculoBase64;
 	
+	
+	
+	public String getContentTypeCurriculo() {
+		return contentTypeCurriculo;
+	}
+
+
+
+	public void setContentTypeCurriculo(String contentTypeCurriculo) {
+		this.contentTypeCurriculo = contentTypeCurriculo;
+	}
+
+
+
+	public String getCurriculoBase64() {
+		return curriculoBase64;
+	}
+
+
+
+	public void setCurriculoBase64(String curriculoBase64) {
+		this.curriculoBase64 = curriculoBase64;
+	}
+
+
+
+	public String getTempFotoUser() {
+		
+		tempFotoUser= "data:" + contentType + ";base64," + fotoBase64;
+		return tempFotoUser;
+	}
+
+
+
 	public boolean validarLoginSenha(String login, String senha) {
 		if (login.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("admin")) {
 			return true;
@@ -172,6 +209,10 @@ public class BeanCursoJsp {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+
+
+
 	
 	
 	

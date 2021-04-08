@@ -1,8 +1,10 @@
 package servlet;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,13 +63,48 @@ public class UsuarioServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				request.setAttribute("user", beanCursoJsp);
-	//			request.setAttribute("msg", "Editado com sucesso");
+				// request.setAttribute("msg", "Editado com sucesso");
 				view.forward(request, response);
 
 			} else if (acao.equalsIgnoreCase("listartodos")) {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				view.forward(request, response);
+
+			} else if (acao.equalsIgnoreCase("download")) {
+				BeanCursoJsp usuario = daoUsuario.consultarUsuario(user);
+				if (usuario != null) {
+					String contentType = "";
+					byte[] fileBytes = null;
+
+					String tipo = request.getParameter("tipo");
+
+					if (tipo.equalsIgnoreCase("imagem")) {
+						contentType = usuario.getContentType();
+						fileBytes = new Base64().decodeBase64(usuario.getFotoBase64());
+					} else if (tipo.equalsIgnoreCase("curriculo")) {
+						contentType = usuario.getContentTypeCurriculo();
+						fileBytes = new Base64().decodeBase64(usuario.getCurriculoBase64());
+					}
+
+					response.setHeader("Content-Disposition",
+							"attachment;filename=arquivo." + contentType.split("\\/")[1]);
+
+					/* Coloca os bytes em um objeto de entrada para processar */
+					InputStream is = new ByteArrayInputStream(fileBytes);
+
+					/* inicio da resposta para o navegador */
+					int read = 0;
+					byte[] bytes = new byte[1024];
+					OutputStream os = response.getOutputStream();
+
+					while ((read = is.read(bytes)) != -1) {
+						os.write(bytes, 0, read);
+					}
+
+					os.flush();
+					os.close();
+				}
 
 			}
 		} catch (Exception e) {
@@ -144,20 +181,33 @@ public class UsuarioServlet extends HttpServlet {
 				 FIM File upload de imagens e pdf */
 				
 		
-				
-				 
+				/*Inicio File upload de imagems e pdf*/
 				
 				if (ServletFileUpload.isMultipartContent(request)){
 
 					Part imagemFoto = request.getPart("foto");
 					
-					String fotoBase64 = new Base64()
-					.encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+					if (imagemFoto != null) {
 					
-					salvarUsuario.setFotoBase64(fotoBase64);
-					salvarUsuario.setContentType(imagemFoto.getContentType());
-				}
+						String fotoBase64 = new Base64()
+						.encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+						
+						salvarUsuario.setFotoBase64(fotoBase64);
+						salvarUsuario.setContentType(imagemFoto.getContentType());
+					}
 				
+				/*Processa pdf*/
+				Part curriculoPdf = request.getPart("curriculo");
+				if (curriculoPdf != null){
+					String curriculoBase64 = new Base64()
+					.encodeBase64String(converteStremParabyte(curriculoPdf.getInputStream()));
+					
+					salvarUsuario.setCurriculoBase64(curriculoBase64);
+					salvarUsuario.setContentTypeCurriculo(curriculoPdf.getContentType());
+				}
+			
+			
+			/*FIM File upload de imagems e pdf*/
 			
 				
 
@@ -210,24 +260,25 @@ public class UsuarioServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
 				request.setAttribute("usuarios", daoUsuario.listarUsuario());
 				view.forward(request, response);
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 		}
-	}
+
+		}
 
 	private byte[] converteStremParabyte(InputStream imagem) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int reads = imagem.read();
 		while (reads != -1) {
 			baos.write(reads);
 			reads = imagem.read();
-			
-			
+
 		}
 		return baos.toByteArray();
 	}
