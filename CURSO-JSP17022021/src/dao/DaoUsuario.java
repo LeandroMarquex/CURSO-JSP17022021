@@ -146,7 +146,10 @@ public class DaoUsuario {
 	public void atualizarUsuario(BeanCursoJsp atualizaUsuario) {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "update usuario set login = ?, senha = ?, nome = ?, telefone = ?, cep = ?, rua = ?, bairro = ?, cidade = ?, estado = ?, ibge = ? where id = " + atualizaUsuario.getIdUsuario();
+			String sql = "update usuario set login = ?, senha = ?, nome = ?, telefone = ?,"
+					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, estado = ?, ibge = ?, "
+					+ " fotobase64 = ?, contenttype  = ?, contentTypeCurriculo  = ?, curriculoBase64  = ? "
+					+ " where id = " + atualizaUsuario.getIdUsuario();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, atualizaUsuario.getLogin());
@@ -160,6 +163,11 @@ public class DaoUsuario {
 			preparedStatement.setString(8, atualizaUsuario.getCidadeUsuario());
 			preparedStatement.setString(9, atualizaUsuario.getEstadoUsuario());
 			preparedStatement.setString(10, atualizaUsuario.getIbgeUsuario());
+			preparedStatement.setString(11, atualizaUsuario.getFotoBase64());
+			preparedStatement.setString(12, atualizaUsuario.getContentType());
+			preparedStatement.setString(13, atualizaUsuario.getCurriculoBase64());
+			preparedStatement.setString(14, atualizaUsuario.getContentTypeCurriculo());
+		
 		
 			preparedStatement.executeUpdate();
 			connection.commit();
