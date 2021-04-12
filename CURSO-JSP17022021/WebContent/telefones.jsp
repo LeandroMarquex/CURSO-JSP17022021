@@ -26,8 +26,9 @@
 
 			<tr>
 				<td>USER:</td>
-				<td><input type="text" id="id" name="id" readonly="readonly"
-					class="field-long" value="${userEscolhido.idUsuario}"></td>
+				<td><input type="text" id="user" name="user"
+					readonly="readonly" class="field-long"
+					value="${userEscolhido.idUsuario}"></td>
 
 				<td>NOME:</td>
 				<td><input type="text" id="nome" name="nome"
@@ -45,12 +46,18 @@
 			</tr>
 			<tr>
 				<td>NÚMERO</td>
-				<td><input type="text" id="numero" name="numero"></td>
+				<td><input type="text" id="numero" name="numero" style="width: 173px;"></td>
 			</tr>
 			<tr>
-				<td></td>
-				<td><input type="submit" value="Salvar" /></td>
-			</tr>
+						<td></td>
+						<td>
+							<input type="submit" value="Salvar" style="width: 173px;"/>
+						
+						</td>
+						<td>
+								<input type="submit" value="Voltar" style="width: 173px;" onclick="document.getElementById('formUser').action = 'salvarTelefones?acao=voltar'">
+						</td>
+					</tr>
 		</table>
 
 
@@ -76,7 +83,7 @@
 
 
 				<td><a
-					href="salvarTelefones?acao=deleteTelefone&idFone=${telefone.idTelefone}"><img
+					href="salvarTelefones?user=${telefone.usuario}&acao=deleteTelefone&idFone=${telefone.idTelefone}"><img
 						alt="Excluir" title="Excluir" src="resources/img/excluir.png"
 						width="20px" height="20px"></a></td>
 
@@ -88,9 +95,11 @@
 	<script type="text/javascript">
 		function validarCampos() {
 			if (document.getElementById("numero").value == '') {
-				alert('Informe o NUMERO DOTELEFONE');
+				alert('Informe o NUMERO DO TELEFONE');
 				return false;
 
+			} else if (document.getElementById("tipo").value == '') {
+				alert("Informe o Tipo!");
 			}
 			return true;
 		}
