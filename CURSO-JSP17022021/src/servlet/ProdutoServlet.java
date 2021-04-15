@@ -47,7 +47,7 @@ public class ProdutoServlet extends HttpServlet {
 				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
 				request.setAttribute("produto", produtoBean);
 				request.setAttribute("produtos", daoProduto.listarProduto());
-				
+
 				view.forward(request, response);
 
 			} else if (acao.equalsIgnoreCase("listartodos")) {
@@ -119,8 +119,12 @@ public class ProdutoServlet extends HttpServlet {
 					produto.setQuantidadeProduto(Double.parseDouble(quantidadeProduto));
 				}
 
-				if (valorProduto != null && !valorProduto.isEmpty())
-					produto.setValorProduto(Double.parseDouble(valorProduto));
+				if (valorProduto != null && !valorProduto.isEmpty()) {
+					
+					String valorParce = valorProduto.replaceAll("\\." , "");
+					valorParce = valorParce.replaceAll("\\," , ".");
+					produto.setValorProduto(Double.parseDouble(valorParce));
+				}
 
 				if (msg != null) {
 					request.setAttribute("msg", msg);
@@ -153,85 +157,68 @@ public class ProdutoServlet extends HttpServlet {
 }
 
 /*
-		String acao = request.getParameter("acao");
-
-		if (acao != null && acao.equalsIgnoreCase("reset")) {
-			try {
-				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
-				request.setAttribute("produtos", daoProduto.listarProduto());
-				view.forward(request, response);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-
-			String idProduto = request.getParameter("idProduto");
-			String nomeProduto = request.getParameter("nomeProduto");
-			String quantidadeProduto = request.getParameter("quantidadeProduto");
-			String valorProduto = request.getParameter("valorProduto");
-
-			try {
-
-				String msg = null;
-				boolean podeInserir = true;
-				
-			if (nomeProduto == null || nomeProduto.isEmpty()) {
-				msg = "Nome deve ser informado";
-				podeInserir = false;
-		
-				
-			}	 else if (idProduto == null || idProduto.isEmpty() && !daoProduto.validarNome(nomeProduto)) {// QUANDO
-				// FDOR
-				// PRODUTO
-				// NOVO
-				msg = "Produto já existe com o mesmo nome!";
-				podeInserir = false;
-			} else if (quantidadeProduto == null || quantidadeProduto.isEmpty()) {
-				msg = "Quantidade deve ser informado";
-				podeInserir = false;
-			} else if (valorProduto == null || valorProduto.isEmpty()) {
-					msg = "Valor R$ deve ser informado";
-			}	
-				ProdutoBean salvarProduto = new ProdutoBean();
-
-			
-				salvarProduto.setNomeProduto(nomeProduto);
-				salvarProduto.setIdProduto(!idProduto.isEmpty() ? Long.parseLong(idProduto) : null);
-				// salvarProduto.setQuantidadeProduto(Double.parseDouble(quantidadeProduto));
-				// salvarProduto.setValorProduto(Double.parseDouble(valorProduto));
-
-				if (quantidadeProduto != null && !quantidadeProduto.isEmpty()) {
-					salvarProduto.setQuantidadeProduto(Double.parseDouble(quantidadeProduto));
-				}
-				if (valorProduto != null && !valorProduto.isEmpty())
-					salvarProduto.setValorProduto(Double.parseDouble(valorProduto));
-				if (msg != null) {
-					request.setAttribute("msg", msg);
-				} else if (idProduto == null
-						|| idProduto.isEmpty() && daoProduto.validarNome(nomeProduto) && podeInserir) {
-					daoProduto.salvarProoduto(salvarProduto);
-				} else if (idProduto != null && idProduto.isEmpty() && podeInserir) {
-
-					daoProduto.atualizarProduto(salvarProduto);
-
-				}
-
-				if (!podeInserir) {
-					request.setAttribute("produto", salvarProduto);
-				}
-
-				RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
-				request.setAttribute("produtos", daoProduto.listarProduto());
-				view.forward(request, response);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		}
-
-	}
-
-}
-*/
+ * String acao = request.getParameter("acao");
+ * 
+ * if (acao != null && acao.equalsIgnoreCase("reset")) { try { RequestDispatcher
+ * view = request.getRequestDispatcher("/cadastroProduto.jsp");
+ * request.setAttribute("produtos", daoProduto.listarProduto());
+ * view.forward(request, response);
+ * 
+ * } catch (Exception e) { e.printStackTrace(); } } else {
+ * 
+ * String idProduto = request.getParameter("idProduto"); String nomeProduto =
+ * request.getParameter("nomeProduto"); String quantidadeProduto =
+ * request.getParameter("quantidadeProduto"); String valorProduto =
+ * request.getParameter("valorProduto");
+ * 
+ * try {
+ * 
+ * String msg = null; boolean podeInserir = true;
+ * 
+ * if (nomeProduto == null || nomeProduto.isEmpty()) { msg =
+ * "Nome deve ser informado"; podeInserir = false;
+ * 
+ * 
+ * } else if (idProduto == null || idProduto.isEmpty() &&
+ * !daoProduto.validarNome(nomeProduto)) {// QUANDO // FDOR // PRODUTO // NOVO
+ * msg = "Produto já existe com o mesmo nome!"; podeInserir = false; } else if
+ * (quantidadeProduto == null || quantidadeProduto.isEmpty()) { msg =
+ * "Quantidade deve ser informado"; podeInserir = false; } else if (valorProduto
+ * == null || valorProduto.isEmpty()) { msg = "Valor R$ deve ser informado"; }
+ * ProdutoBean salvarProduto = new ProdutoBean();
+ * 
+ * 
+ * salvarProduto.setNomeProduto(nomeProduto);
+ * salvarProduto.setIdProduto(!idProduto.isEmpty() ? Long.parseLong(idProduto) :
+ * null); //
+ * salvarProduto.setQuantidadeProduto(Double.parseDouble(quantidadeProduto)); //
+ * salvarProduto.setValorProduto(Double.parseDouble(valorProduto));
+ * 
+ * if (quantidadeProduto != null && !quantidadeProduto.isEmpty()) {
+ * salvarProduto.setQuantidadeProduto(Double.parseDouble(quantidadeProduto)); }
+ * if (valorProduto != null && !valorProduto.isEmpty())
+ * salvarProduto.setValorProduto(Double.parseDouble(valorProduto)); if (msg !=
+ * null) { request.setAttribute("msg", msg); } else if (idProduto == null ||
+ * idProduto.isEmpty() && daoProduto.validarNome(nomeProduto) && podeInserir) {
+ * daoProduto.salvarProoduto(salvarProduto); } else if (idProduto != null &&
+ * idProduto.isEmpty() && podeInserir) {
+ * 
+ * daoProduto.atualizarProduto(salvarProduto);
+ * 
+ * }
+ * 
+ * if (!podeInserir) { request.setAttribute("produto", salvarProduto); }
+ * 
+ * RequestDispatcher view =
+ * request.getRequestDispatcher("/cadastroProduto.jsp");
+ * request.setAttribute("produtos", daoProduto.listarProduto());
+ * view.forward(request, response);
+ * 
+ * } catch (Exception e) { e.printStackTrace(); }
+ * 
+ * }
+ * 
+ * }
+ * 
+ * }
+ */

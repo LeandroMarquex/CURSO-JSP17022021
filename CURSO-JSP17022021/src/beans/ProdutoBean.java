@@ -41,6 +41,8 @@ public class ProdutoBean {
 		this.valorProduto = valorProduto;
 	}
 	
-	
+	public String getValorEmTexto(){
+		return Double.toString(valorProduto).replace('.', ',');
+	}
 
 }
