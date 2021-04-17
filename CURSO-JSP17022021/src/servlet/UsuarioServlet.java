@@ -1,13 +1,14 @@
 package servlet;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -16,15 +17,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.tomcat.util.buf.UDecoder;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import beans.BeanCursoJsp;
 import dao.DaoUsuario;
+
 
 /**
  * Servlet implementation class UsuarioServlet
@@ -135,14 +135,13 @@ public class UsuarioServlet extends HttpServlet {
 			String senha = request.getParameter("senha");
 			String nome = request.getParameter("nome");
 			String telefone = request.getParameter("telefone");
-			
+
 			String cep = request.getParameter("cep");
 			String rua = request.getParameter("rua");
 			String bairro = request.getParameter("bairro");
 			String cidade = request.getParameter("cidade");
 			String estado = request.getParameter("estado");
 			String ibge = request.getParameter("ibge");
-		
 
 			BeanCursoJsp salvarUsuario = new BeanCursoJsp();
 
@@ -158,115 +157,145 @@ public class UsuarioServlet extends HttpServlet {
 			salvarUsuario.setEstadoUsuario(estado);
 			salvarUsuario.setIbgeUsuario(ibge);
 
-
 			try {
-				
-				/* Inicio File upload de imagens e pdf 
-				
+
+				/*
+				 * Inicio File upload de imagens e pdf
+				 * 
+				 * if (ServletFileUpload.isMultipartContent(request)) {
+				 * 
+				 * List<FileItem> fileItens = new ServletFileUpload(new
+				 * DiskFileItemFactory()).parseRequest(request);
+				 * 
+				 * for (FileItem fileItem : fileItens) { if
+				 * (fileItem.getFieldName().equals("foto")) { String fotoBase64 = new
+				 * Base64().encodeBase64String(fileItem.get()); String contenttype =
+				 * fileItem.getContentType(); salvarUsuario.setFotoBase64(fotoBase64);
+				 * salvarUsuario.setContentType(contenttype); }
+				 * 
+				 * }
+				 * 
+				 * } FIM File upload de imagens e pdf
+				 */
+
+				/* Inicio File upload de imagems e pdf */
+
 				if (ServletFileUpload.isMultipartContent(request)) {
-					
-					List<FileItem> fileItens = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-					
-					for (FileItem fileItem : fileItens) {
-						if (fileItem.getFieldName().equals("foto")) {
-							String fotoBase64 = new Base64().encodeBase64String(fileItem.get());
-							String contenttype = fileItem.getContentType();
-							salvarUsuario.setFotoBase64(fotoBase64);
-							salvarUsuario.setContentType(contenttype);
-						}
-						
-					}
-					
-				}
-				 FIM File upload de imagens e pdf */
-				
-		
-				/*Inicio File upload de imagems e pdf*/
-				
-				if (ServletFileUpload.isMultipartContent(request)){
 
 					Part imagemFoto = request.getPart("foto");
-					
+
 					if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
-					
+						/*
+						 * 
+						 * String fotoBase64 = new Base64()
+						 * .encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+						 * 
+						 * salvarUsuario.setFotoBase64(fotoBase64);
+						 * salvarUsuario.setContentType(imagemFoto.getContentType());
+						 */
 						String fotoBase64 = new Base64()
-						.encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
-						
+								.encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+
 						salvarUsuario.setFotoBase64(fotoBase64);
 						salvarUsuario.setContentType(imagemFoto.getContentType());
+
+						/* Inicio miniatura imagem */
+
+						/* Transforma emum bufferedImage */
+						byte[] imageByteDecode = new Base64().decodeBase64(fotoBase64);
+						BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageByteDecode));
+
+						/* Pega o tipo da imagem */
+						int type = bufferedImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
+
+						/* Cria imagem em miniatura */
+						BufferedImage resizedImage = new BufferedImage(100, 100, type);
+						Graphics2D g = resizedImage.createGraphics();
+						g.drawImage(bufferedImage, 0, 0, 100, 100, null);
+						g.dispose();
+
+						/* Escrever imagem novamente */
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						ImageIO.write(resizedImage, "png", baos);
+
+						String miniaturaBase64 = "data:image/png;base64,"
+								+ DatatypeConverter.printBase64Binary(baos.toByteArray());
+
+						System.out.println(miniaturaBase64);
+						// salvarUsuario.setFotoBase64Miniatura(miniaturaBase64);
+						/* Fim miniatura imagem */
+
 					} else {
 						salvarUsuario.setFotoBase64(request.getParameter("fotoTemp"));
 						salvarUsuario.setContentType(request.getParameter("contentTypeTemp"));
-						
-					}
-				
-				/*Processa pdf*/
-				Part curriculoPdf = request.getPart("curriculo");
-				if (curriculoPdf != null && curriculoPdf.getInputStream().available() > 0){
-					String curriculoBase64 = new Base64()
-					.encodeBase64String(converteStremParabyte(curriculoPdf.getInputStream()));
-					
-					salvarUsuario.setCurriculoBase64(curriculoBase64);
-					salvarUsuario.setContentTypeCurriculo(curriculoPdf.getContentType());
-				} else {
-					salvarUsuario.setCurriculoBase64(request.getParameter("curriculoTemp"));
-					salvarUsuario.setContentTypeCurriculo(request.getParameter("contentTypeCurriculoTemp"));
-				}
-			
-			
-			/*FIM File upload de imagems e pdf*/
-			
-				
-
-				String msg = null;
-				boolean podeInserir = true;
-
-				if (login == null || login.isEmpty()) {
-					msg = "Login deve ser informado";
-					podeInserir = false;
-				} else if (senha == null || senha.isEmpty()) {
-					msg = "Senha deve ser informada.";
-					podeInserir = false;
-				} else if (nome == null || nome.isEmpty()) {
-					msg = "Nome deve ser informado";
-					podeInserir = false;
-				} else if (telefone == null || telefone.isEmpty()) {
-					msg = "Telefone deve ser informado";
-					podeInserir = false;
-				} else if (id == null || id.isEmpty() && !daoUsuario.validarLogin(login)) { // QUANDO FOR USUARIO NOVO
-					// request.setAttribute("msg", "Usuario já existe com o mesmo login!");
-					msg = "Usuário já existe com o mesmo login";
-					podeInserir = false;
-				} else if (id == null || id.isEmpty() && !daoUsuario.validarSenha(senha)) {
-					msg = "\n A senha já existe para outro usuário!";
-					podeInserir = false;
-
-				}
-				if (msg != null) {
-					request.setAttribute("msg", msg);
-				} else if  (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeInserir) {
-					daoUsuario.salvarUsuario(salvarUsuario);
-					request.setAttribute("msg", "Salvo com sucesso");
-				} else if (id != null && !id.isEmpty() && podeInserir) {
-					if (!daoUsuario.validarLoginUpdate(login, id)) {
-						request.setAttribute("msg", "Este Login já existe e pertence a um outro usuario");
 
 					}
-					if (!daoUsuario.validarSenhaUpdate(senha, id)) {
-						request.setAttribute("msg", "Este SENHA já  pertence a um outro usuario");
+
+					/* Processa pdf */
+					Part curriculoPdf = request.getPart("curriculo");
+					if (curriculoPdf != null && curriculoPdf.getInputStream().available() > 0) {
+						String curriculoBase64 = new Base64()
+								.encodeBase64String(converteStremParabyte(curriculoPdf.getInputStream()));
+
+						salvarUsuario.setCurriculoBase64(curriculoBase64);
+						salvarUsuario.setContentTypeCurriculo(curriculoPdf.getContentType());
 					} else {
-						daoUsuario.atualizarUsuario(salvarUsuario);
-						request.setAttribute("msg", "Atualizado com sucesso");
+						salvarUsuario.setCurriculoBase64(request.getParameter("curriculoTemp"));
+						salvarUsuario.setContentTypeCurriculo(request.getParameter("contentTypeCurriculoTemp"));
 					}
 
-				}
-				if (!podeInserir) {
-					request.setAttribute("user", salvarUsuario);
-				}
+					/* FIM File upload de imagems e pdf */
 
-				RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
-				request.setAttribute("usuarios", daoUsuario.listarUsuario());
-				view.forward(request, response);
+					String msg = null;
+					boolean podeInserir = true;
+
+					if (login == null || login.isEmpty()) {
+						msg = "Login deve ser informado";
+						podeInserir = false;
+					} else if (senha == null || senha.isEmpty()) {
+						msg = "Senha deve ser informada.";
+						podeInserir = false;
+					} else if (nome == null || nome.isEmpty()) {
+						msg = "Nome deve ser informado";
+						podeInserir = false;
+					} else if (telefone == null || telefone.isEmpty()) {
+						msg = "Telefone deve ser informado";
+						podeInserir = false;
+					} else if (id == null || id.isEmpty() && !daoUsuario.validarLogin(login)) { // QUANDO FOR USUARIO
+																								// NOVO
+						// request.setAttribute("msg", "Usuario já existe com o mesmo login!");
+						msg = "Usuário já existe com o mesmo login";
+						podeInserir = false;
+					} else if (id == null || id.isEmpty() && !daoUsuario.validarSenha(senha)) {
+						msg = "\n A senha já existe para outro usuário!";
+						podeInserir = false;
+
+					}
+					if (msg != null) {
+						request.setAttribute("msg", msg);
+					} else if (id == null || id.isEmpty() && daoUsuario.validarLogin(login) && podeInserir) {
+						daoUsuario.salvarUsuario(salvarUsuario);
+						request.setAttribute("msg", "Salvo com sucesso");
+					} else if (id != null && !id.isEmpty() && podeInserir) {
+						if (!daoUsuario.validarLoginUpdate(login, id)) {
+							request.setAttribute("msg", "Este Login já existe e pertence a um outro usuario");
+
+						}
+						if (!daoUsuario.validarSenhaUpdate(senha, id)) {
+							request.setAttribute("msg", "Este SENHA já  pertence a um outro usuario");
+						} else {
+							daoUsuario.atualizarUsuario(salvarUsuario);
+							request.setAttribute("msg", "Atualizado com sucesso");
+						}
+
+					}
+					if (!podeInserir) {
+						request.setAttribute("user", salvarUsuario);
+					}
+
+					RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+					request.setAttribute("usuarios", daoUsuario.listarUsuario());
+					view.forward(request, response);
 				}
 
 			} catch (Exception e) {
@@ -275,7 +304,7 @@ public class UsuarioServlet extends HttpServlet {
 
 		}
 
-		}
+	}
 
 	private byte[] converteStremParabyte(InputStream imagem) throws Exception {
 		// TODO Auto-generated method stub
