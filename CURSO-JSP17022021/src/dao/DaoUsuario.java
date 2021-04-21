@@ -28,7 +28,7 @@ public class DaoUsuario {
 
 	public void salvarUsuario(BeanCursoJsp salvarUsuario) {
 		try {
-			String sql = "insert into usuario(login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, fotobase64, contenttype, contentTypeCurriculo, curriculoBase64 ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "insert into usuario(login, senha, nome, telefone, cep, rua, bairro, cidade, estado, ibge, fotobase64, contenttype, contentTypeCurriculo, curriculoBase64, fotoBase64Miniatura ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, salvarUsuario.getLogin());
 			insert.setString(2, salvarUsuario.getSenha());
@@ -44,6 +44,7 @@ public class DaoUsuario {
 			insert.setString(12, salvarUsuario.getContentType());
 			insert.setString(13, salvarUsuario.getContentTypeCurriculo());
 			insert.setString(14, salvarUsuario.getCurriculoBase64());
+			insert.setString(15, salvarUsuario.getFotoBase64Miniatura());
 			insert.execute();
 			connection.commit();
 
@@ -148,7 +149,7 @@ public class DaoUsuario {
 		try {
 			String sql = "update usuario set login = ?, senha = ?, nome = ?, telefone = ?,"
 					+ "cep = ?, rua = ?, bairro = ?, cidade = ?, estado = ?, ibge = ?, "
-					+ " fotobase64 = ?, contenttype  = ?, contentTypeCurriculo  = ?, curriculoBase64  = ? "
+					+ " fotobase64 = ?, contenttype  = ?, contentTypeCurriculo  = ?, curriculoBase64  = ?, fotoBase64Miniatura = ? "
 					+ " where id = " + atualizaUsuario.getIdUsuario();
 			
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -167,6 +168,7 @@ public class DaoUsuario {
 			preparedStatement.setString(12, atualizaUsuario.getContentType());
 			preparedStatement.setString(13, atualizaUsuario.getCurriculoBase64());
 			preparedStatement.setString(14, atualizaUsuario.getContentTypeCurriculo());
+			preparedStatement.setString(15, atualizaUsuario.getFotoBase64Miniatura());
 		
 		
 			preparedStatement.executeUpdate();

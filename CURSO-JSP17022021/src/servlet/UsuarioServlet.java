@@ -25,7 +25,6 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import beans.BeanCursoJsp;
 import dao.DaoUsuario;
 
-
 /**
  * Servlet implementation class UsuarioServlet
  */
@@ -222,7 +221,7 @@ public class UsuarioServlet extends HttpServlet {
 								+ DatatypeConverter.printBase64Binary(baos.toByteArray());
 
 						System.out.println(miniaturaBase64);
-						// salvarUsuario.setFotoBase64Miniatura(miniaturaBase64);
+						salvarUsuario.setFotoBase64Miniatura(miniaturaBase64);
 						/* Fim miniatura imagem */
 
 					} else {
