@@ -83,8 +83,8 @@ public class DaoUsuario {
 			beanCursoJsp.setIbgeUsuario(resultSet.getString("ibge"));
 			
 			beanCursoJsp.setContentType(resultSet.getString("contenttype"));
-			beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
-		
+		//	beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
+			beanCursoJsp.setFotoBase64Miniatura(resultSet.getString("fotoBase64Miniatura"));
 			beanCursoJsp.setContentTypeCurriculo(resultSet.getString("contentTypeCurriculo"));
 			beanCursoJsp.setCurriculoBase64(resultSet.getString("curriculobase64"));
 			
@@ -132,7 +132,8 @@ public class DaoUsuario {
 			
 
 			beanCursoJsp.setContentType(resultSet.getString("contenttype"));
-			beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
+		//	beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
+			beanCursoJsp.setFotoBase64Miniatura(resultSet.getString("fotoBase64Miniatura"));
 		
 			beanCursoJsp.setContentTypeCurriculo(resultSet.getString("contentTypeCurriculo"));
 			beanCursoJsp.setCurriculoBase64(resultSet.getString("curriculobase64"));

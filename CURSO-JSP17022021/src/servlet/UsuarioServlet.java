@@ -80,10 +80,12 @@ public class UsuarioServlet extends HttpServlet {
 
 					if (tipo.equalsIgnoreCase("imagem")) {
 						contentType = usuario.getContentType();
-						fileBytes = new Base64().decodeBase64(usuario.getFotoBase64());
+						new Base64();
+						fileBytes = Base64.decodeBase64(usuario.getFotoBase64());
 					} else if (tipo.equalsIgnoreCase("curriculo")) {
 						contentType = usuario.getContentTypeCurriculo();
-						fileBytes = new Base64().decodeBase64(usuario.getCurriculoBase64());
+						new Base64();
+						fileBytes = Base64.decodeBase64(usuario.getCurriculoBase64());
 					}
 
 					response.setHeader("Content-Disposition",
@@ -94,7 +96,7 @@ public class UsuarioServlet extends HttpServlet {
 
 					/* inicio da resposta para o navegador */
 					int read = 0;
-					byte[] bytes = new byte[1024];
+					byte[] bytes = new byte[2048];
 					OutputStream os = response.getOutputStream();
 
 					while ((read = is.read(bytes)) != -1) {
@@ -184,6 +186,7 @@ public class UsuarioServlet extends HttpServlet {
 					Part imagemFoto = request.getPart("foto");
 
 					if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
+						new Base64();
 						/*
 						 * 
 						 * String fotoBase64 = new Base64()
@@ -192,7 +195,7 @@ public class UsuarioServlet extends HttpServlet {
 						 * salvarUsuario.setFotoBase64(fotoBase64);
 						 * salvarUsuario.setContentType(imagemFoto.getContentType());
 						 */
-						String fotoBase64 = new Base64()
+						String fotoBase64 = Base64
 								.encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
 
 						salvarUsuario.setFotoBase64(fotoBase64);
@@ -200,8 +203,9 @@ public class UsuarioServlet extends HttpServlet {
 
 						/* Inicio miniatura imagem */
 
+						new Base64();
 						/* Transforma emum bufferedImage */
-						byte[] imageByteDecode = new Base64().decodeBase64(fotoBase64);
+						byte[] imageByteDecode = Base64.decodeBase64(fotoBase64);
 						BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageByteDecode));
 
 						/* Pega o tipo da imagem */
@@ -233,7 +237,8 @@ public class UsuarioServlet extends HttpServlet {
 					/* Processa pdf */
 					Part curriculoPdf = request.getPart("curriculo");
 					if (curriculoPdf != null && curriculoPdf.getInputStream().available() > 0) {
-						String curriculoBase64 = new Base64()
+						new Base64();
+						String curriculoBase64 = Base64
 								.encodeBase64String(converteStremParabyte(curriculoPdf.getInputStream()));
 
 						salvarUsuario.setCurriculoBase64(curriculoBase64);
